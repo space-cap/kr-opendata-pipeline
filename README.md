@@ -25,7 +25,7 @@
 
 ## 🛠️ 기술 스택
 
-- **Language:** Python 3.12+
+- **Language:** Python 3.13+
 - **Environment:** [uv](https://github.com/astral-sh/uv) (Python package & environment manager)
 - **Database:** MariaDB / MySQL
 - **Libraries:** `requests`, `pymysql`, `python-dotenv`

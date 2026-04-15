@@ -1,6 +1,7 @@
 import os
 import logging
 import argparse
+from datetime import datetime
 from pathlib import Path
 
 import pymysql
@@ -59,10 +60,16 @@ def get_connection() -> pymysql.connections.Connection:
         raise SystemExit(1)
 
 def parse_date(val: str) -> str | None:
-    """'YYYYMMDD' 형식의 날짜를 'YYYY-MM-DD'로 변환합니다. 비어있으면 None 반환."""
+    """'YYYYMMDD' 형식의 날짜를 'YYYY-MM-DD'로 변환합니다.
+    비어있거나 존재하지 않는 날짜(예: 11월 31일)면 None 반환."""
     val = val.strip()
     if val and len(val) == 8 and val.isdigit():
-        return f"{val[:4]}-{val[4:6]}-{val[6:]}"
+        try:
+            dt = datetime.strptime(val, "%Y%m%d")
+            return dt.strftime("%Y-%m-%d")
+        except ValueError:
+            logger.warning(f"유효하지 않은 날짜 발견, NULL로 저장: '{val}'")
+            return None
     return None
 
 def to_none(val: str) -> str | None:

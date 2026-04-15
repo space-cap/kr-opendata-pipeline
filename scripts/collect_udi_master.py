@@ -7,6 +7,7 @@ import logging
 import math
 import time
 import argparse
+from pathlib import Path
 
 import pymysql
 import requests
@@ -15,13 +16,16 @@ from dotenv import load_dotenv
 # ==========================================
 # 1. 로거 설정
 # ==========================================
+# 로그 폴더 생성
+Path("logs").mkdir(parents=True, exist_ok=True)
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
     handlers=[
         logging.StreamHandler(),                          # 콘솔 출력
-        logging.FileHandler("collect_udi_master.log", encoding="utf-8"),  # 파일 저장
+        logging.FileHandler("logs/collect_udi_master.log", encoding="utf-8"),  # 파일 저장
     ],
 )
 logger = logging.getLogger(__name__)

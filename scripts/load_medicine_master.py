@@ -10,13 +10,16 @@ from dotenv import load_dotenv
 # ==========================================
 # 1. 로거 설정
 # ==========================================
+# 로그 폴더 생성
+Path("logs").mkdir(parents=True, exist_ok=True)
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
     handlers=[
         logging.StreamHandler(),
-        logging.FileHandler("load_medicine_master.log", encoding="utf-8"),
+        logging.FileHandler("logs/load_medicine_master.log", encoding="utf-8"),
     ],
 )
 logger = logging.getLogger(__name__)

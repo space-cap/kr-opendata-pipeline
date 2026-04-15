@@ -1,5 +1,5 @@
 # /// script
-# requires = ["requests", "pymysql", "python-dotenv"]
+# dependencies = ["requests", "pymysql", "python-dotenv"]
 # ///
 
 import os

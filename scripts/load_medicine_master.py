@@ -166,7 +166,7 @@ def parse_row(cols: list[str]) -> tuple:
 # ==========================================
 # 6. 메인 로직
 # ==========================================
-def run(file_path: Path):
+def run(file_path: Path, encoding: str = "euc-kr"):
     if not file_path.exists():
         logger.critical(f"파일을 찾을 수 없습니다: {file_path}")
         raise SystemExit(1)
@@ -180,7 +180,7 @@ def run(file_path: Path):
 
     try:
         with (
-            file_path.open(encoding="utf-8-sig") as f,
+            file_path.open(encoding=encoding) as f,
             connection.cursor() as cursor,
         ):
             # 헤더 스킵
@@ -237,5 +237,10 @@ if __name__ == "__main__":
         type=Path,
         help="적재할 파이프 구분자(|) 텍스트 파일 경로 (예: data/1_raw/BarCodeData.txt)",
     )
+    parser.add_argument(
+        "--encoding",
+        default="euc-kr",
+        help="파일 인코딩 (기본값: euc-kr, UTF-8 파일이면 utf-8-sig 입력)",
+    )
     args = parser.parse_args()
-    run(args.file)
+    run(args.file, args.encoding)

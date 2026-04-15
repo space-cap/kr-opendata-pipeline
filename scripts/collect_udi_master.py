@@ -1,7 +1,3 @@
-# /// script
-# dependencies = ["requests", "pymysql", "python-dotenv"]
-# ///
-
 import os
 import logging
 import math

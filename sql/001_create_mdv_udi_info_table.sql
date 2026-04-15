@@ -5,10 +5,10 @@
 CREATE TABLE IF NOT EXISTS mdv_udi_info (
     id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '내부 고유 ID',
     udidi_cd VARCHAR(50) UNIQUE COMMENT '의료기기 표준코드 (UDI-DI)',
-    prdlst_nm VARCHAR(255) COMMENT '품목명',
+    prdlst_nm VARCHAR(1000) COMMENT '품목명',
     clsf_grad_cd VARCHAR(10) COMMENT '의료기기 등급',
-    prdt_nm_cont VARCHAR(255) COMMENT '제품명',
-    biz_ipla_nm VARCHAR(255) COMMENT '제조/수입업체명',
+    prdt_nm_cont VARCHAR(1000) COMMENT '제품명',
+    biz_ipla_nm VARCHAR(1000) COMMENT '제조/수입업체명',
     mdeq_prdlst_sn VARCHAR(255) COMMENT '의료기기 품목 일련번호',
     udi_modl_nm_sn VARCHAR(50) COMMENT '모델명 일련번호',
     care_sal_trgt_yn CHAR(1) COMMENT '요양급여 대상 여부',

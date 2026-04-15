@@ -1,7 +1,12 @@
+# /// script
+# dependencies = ["requests", "pymysql", "python-dotenv"]
+# ///
+
 import os
 import logging
 import math
 import time
+import argparse
 
 import pymysql
 import requests
@@ -45,13 +50,14 @@ NUM_OF_ROWS   = 500
 MAX_RETRIES   = 5       # API 최대 재시도 횟수
 RETRY_DELAY   = 10      # 재시도 대기 시간 (초)
 REQUEST_DELAY = 1.5     # 페이지 간 요청 간격 (초)
+CHECKPOINT_FILE = "last_page.txt"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
 }
 
 # ==========================================
-# 3. DB 연결 함수
+# 3. 유틸리티 함수
 # ==========================================
 def get_connection() -> pymysql.connections.Connection:
     """MariaDB 연결을 생성하고 반환합니다."""
@@ -69,6 +75,26 @@ def get_connection() -> pymysql.connections.Connection:
     except pymysql.MySQLError as e:
         logger.critical(f"MariaDB 연결 실패: {e}")
         raise SystemExit(1)
+
+def load_checkpoint() -> int:
+    """파일에서 마지막으로 성공한 페이지 번호를 읽어옵니다."""
+    if os.path.exists(CHECKPOINT_FILE):
+        try:
+            with open(CHECKPOINT_FILE, "r", encoding="utf-8") as f:
+                content = f.read().strip()
+                if content.isdigit():
+                    return int(content)
+        except Exception as e:
+            logger.warning(f"체크포인트 파일을 읽는 중 오류 발생: {e}")
+    return 1
+
+def save_checkpoint(page: int):
+    """마지막으로 성공한 페이지 번호를 파일에 기록합니다."""
+    try:
+        with open(CHECKPOINT_FILE, "w", encoding="utf-8") as f:
+            f.write(str(page))
+    except Exception as e:
+        logger.error(f"체크포인트 파일 저장 실패: {e}")
 
 # ==========================================
 # 4. API 호출 함수 (최대 재시도 포함)
@@ -129,8 +155,27 @@ INSERT_SQL = """
 """
 
 def run():
+    # 명령줄 인자 파싱
+    parser = argparse.ArgumentParser(description="의료기기 UDI 마스터 정보 수집 스크립트")
+    parser.add_argument("--start-page", type=int, help="수동으로 시작 페이지 지정")
+    parser.add_argument("--no-checkpoint", action="store_true", help="체크포인트를 무시하고 1페이지부터 시작")
+    args = parser.parse_args()
+
+    # 시작 페이지 결정
+    if args.start_page:
+        current_page = args.start_page
+        logger.info(f"명령줄 인자에 의해 {current_page}페이지부터 수집을 시작합니다.")
+    elif args.no_checkpoint:
+        current_page = 1
+        logger.info("체크포인트를 무시하고 1페이지부터 수집을 시작합니다.")
+    else:
+        current_page = load_checkpoint()
+        if current_page > 1:
+            logger.info(f"이전 기록을 발견하여 {current_page}페이지부터 이어서 수집을 시작합니다.")
+        else:
+            logger.info("새로운 수집을 시작합니다 (1페이지).")
+
     connection = get_connection()
-    current_page  = 1
     total_inserted = 0
 
     try:
@@ -177,6 +222,9 @@ def run():
                     f"[{current_page}/{total_pages} 페이지] "
                     f"{len(items)}건 저장 완료 (누적: {total_inserted:,}/{total_count:,})"
                 )
+
+                # 체크포인트 저장 (현재 페이지 성공)
+                save_checkpoint(current_page)
 
                 current_page += 1
                 time.sleep(REQUEST_DELAY)

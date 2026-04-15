@@ -6,6 +6,7 @@
 
 https://apis.data.go.kr/1471000/MdvUdiInfoService/getMdvUdiInfo?serviceKey=4KxwtGJszCv%2FRTFVhRm4kOs2UCoxj%2BKpnfl849syl2KyB8wLYZ%2BH7Kyjpe4QtUmfYTJNzWeIRheY%2FDD3hw6yQw%3D%3D&pageNo=1&numOfRows=3&type=json
 
+결과값:
 {"header":{"resultCode":"00","resultMsg":"NORMAL SERVICE."},"body":{"pageNo":1,"totalCount":2356463,"numOfRows":3,"items":[{"PRDLST_NM":"체외형범용프로브","CLSF_GRAD_CD":"1","PRDT_NM_CONT":null,"BIZ_IPLA_NM":"메드니스(주)","MDEQ_PRDLST_SN":"서울 제신 06-182 호","UDI_MODL_NM_SN":"1015156","UDIDI_CD":"08800179300909","CARE_SAL_TRGT_YN":"N","CARE_SAL_CD_INPT_VAL":null,"ITGRT_INFO_REG_CMPTN_DT":"2022-06-03"},{"PRDLST_NM":"체외형범용프로브","CLSF_GRAD_CD":"1","PRDT_NM_CONT":null,"BIZ_IPLA_NM":"메드니스(주)","MDEQ_PRDLST_SN":"서울 제신 06-182 호","UDI_MODL_NM_SN":"1015156","UDIDI_CD":"08800179300916","CARE_SAL_TRGT_YN":"N","CARE_SAL_CD_INPT_VAL":null,"ITGRT_INFO_REG_CMPTN_DT":"2022-06-03"},{"PRDLST_NM":"수동식의료용개창기구","CLSF_GRAD_CD":"1","PRDT_NM_CONT":"Instrument","BIZ_IPLA_NM":"(주)제일메디칼코퍼레이션","MDEQ_PRDLST_SN":"서울 제신 06-180 호","UDI_MODL_NM_SN":"1153148","UDIDI_CD":"08800089427949","CARE_SAL_TRGT_YN":"N","CARE_SAL_CD_INPT_VAL":null,"ITGRT_INFO_REG_CMPTN_DT":"2022-06-14"}]}}
 
 

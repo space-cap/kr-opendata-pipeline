@@ -1,6 +1,6 @@
 -- 002_create_medicine_master_table.sql
--- 목적: 
--- 작성일: 
+-- 목적: 의약품 마스터(기준) 테이블 생성
+-- 작성일: 2026-04-17
 
 CREATE TABLE `medicine_master` (
     `id`                    BIGINT AUTO_INCREMENT COMMENT '내부 고유 ID',
